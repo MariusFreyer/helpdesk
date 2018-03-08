@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
@@ -51,6 +52,7 @@ class TicketController extends Controller
         $request->validate([
             'subject' => 'required|max:255',
             'body' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $ticket = new Ticket();
@@ -58,6 +60,12 @@ class TicketController extends Controller
         $ticket->body = $request->input('body');
         $ticket->user_id = Auth::user()->id;
         $ticket->status = 'open';
+
+        if ($request->file('image')) {
+            $image = $request->file('image')->store('public/tickets');
+            $ticket->image = $image;
+        }
+        
         $ticket->save();
 
         $request->session()->flash('alert-success', 'Ticket was successfully added!');
@@ -86,7 +94,7 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        return view('tickets.edit', compact('ticket'));
     }
 
     /**
@@ -98,7 +106,13 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        //
+        $ticket = Ticket::find($ticket->id);
+        $ticket->subject = $request->input('subject');
+        $ticket->body = $request->input('body');
+        $ticket->save();
+
+        $request->session()->flash('alert-success', 'Ticket was successfully updated!');
+        return redirect()->route('show_ticket', $ticket->id);
     }
 
     /**

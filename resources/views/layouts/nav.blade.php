@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
     <div class="container">
         <!-- Brand -->
-        <a class="navbar-brand" href="#">IT Helpdesk</a>
+        <a class="navbar-brand" href="/">IT Helpdesk</a>
         <!-- Toggler/collapsibe Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -9,17 +9,21 @@
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
+                @if(Auth::check()) 
                 @if (Auth::user()->hasRole('admin'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('index_ticket') }}">Ticket overview</a>
                 </li>
+                @endif 
+                @if (Auth::user()->hasRole('user'))
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My Tickets</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="#">FAQ</a>
+                    </li>
+                @endif 
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
             </ul>
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -34,7 +38,6 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('register') }}">Benutzer hinzufügen</a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 Logout

@@ -46,6 +46,7 @@ class CommentController extends Controller
         $comment->user_id = Auth::id();
         $comment->ticket_id = $ticket->id;
         $comment->save();
+        $request->session()->flash('alert-success', 'Comment was added' );
         return back();
     }
 

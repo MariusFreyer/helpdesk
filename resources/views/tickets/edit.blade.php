@@ -1,43 +1,29 @@
 @extends('layouts.main') 
 @section('content')
 <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-9">
-                <h1>{{ $ticket->subject }}</h1>
-                <p>{{ $ticket->created_at }} by {{ $ticket->user->name }} @if ( $ticket->assigne ) | <strong>Assigne:</strong>                    {{ $ticket->assigne->name }}</p> @endif
-            </div>
-            <div class="col-sm-3">
-                @include('layouts.partials.ticketProgress')
-                <div class="dropdown mt-3">
-                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-                            Change Status
-                        </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
-                    </div>
+    <form method="POST" action="{{ route('update_ticket', $ticket->id) }}">
+        <div class="container">
+            <div class="row">
+                @csrf {{ method_field('PATCH') }}
+                <div class="col-sm-12">
+                    <h1><input name="subject" type="subject" class="form-control" id="subject" value="{{ $ticket->subject }}"></h1>
+                    <p>{{ $ticket->created_at }} by {{ $ticket->user->name }} @if ( $ticket->assigne ) | <strong>Assigne:</strong>                        {{ $ticket->assigne->name }}</p> @endif
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            @include('layouts.partials.messages')
             <p>
-                {{ $ticket->body }}
+                <textarea name="body" type="text" class="form-control" id="body" rows="10">{{ $ticket->body }}</textarea>
             </p>
-            <a href="{{ route('edit_ticket', $ticket->id) }}" class="btn btn-sm btn-primary" role="button">Edit</a>
-            <div class="ticket-thumbnails mt-4">
-                <a href="{{ asset(Storage::disk('local')->url($ticket->image))}}">
-                    <img src="{{ asset(Storage::disk('local')->url($ticket->image))}}" alt="" class="img-thumbnail" width="150" />
-                </a>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </div>
     </div>
+    </form>
     <hr class="mt-4 mb-4">
     <div class="row">
         <div class="col-sm-12">
@@ -57,6 +43,7 @@
                     New comment
                 </div>
                 <div class="card-body">
+    @include('layouts.partials.messages')
                     <form method="POST" action="{{ route('store_comment', $ticket->id) }}">
                         @csrf
                         <div class="form-group">

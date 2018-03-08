@@ -25,35 +25,9 @@
             <tr>
                 <td><a href="{{ route('show_ticket', $ticket->id) }}">{{ $ticket->subject }}</a></td>
                 <td>{{ $ticket->user->name }}</td>
-                <td>
-                    @if ($ticket->status == 'open')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-danger" style="width:33.3%">
-                            Open
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'assigned')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-warning" style="width:66.6%">
-                            Assigned
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'closed_success')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-success" style="width:100%">
-                            Finished
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'closed_error')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-danger" style="width:100%">
-                            Closed/Failed
-                        </div>
-                    </div>
-                    @endif
-                </td>
+                <td>@include('layouts.partials.ticketProgress')</td>
                 <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @else Take @endif</td>
-                <td>Edit | Close | <a href="{{ route('release_ticket', $ticket->id)}}">Release</a></td>
+                <td>Close | <a href="{{ route('release_ticket', $ticket->id)}}">Release</a></td>
             </tr>
             @endforeach
         </tbody>
@@ -84,33 +58,7 @@
             <tr>
                 <td><a href="{{ route('show_ticket', $ticket->id) }}">{{ $ticket->subject }}</a></td>
                 <td>{{ $ticket->user->name }}</td>
-                <td>
-                    @if ($ticket->status == 'open')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-danger" style="width:33.3%">
-                            Open
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'assigned')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-warning" style="width:66.6%">
-                            Assigned
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'closed_success')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-success" style="width:100%">
-                            Finished
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'closed_error')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-danger" style="width:100%">
-                            Closed/Failed
-                        </div>
-                    </div>
-                    @endif
-                </td>
+                <td>@include('layouts.partials.ticketProgress')</td>
                 <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @else Take @endif</td>
                 <td><a href="{{route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}">Take</a> | Close</td>
             </tr>
@@ -143,35 +91,9 @@
             <tr>
                 <td><a href="{{ route('show_ticket', $ticket->id) }}">{{ $ticket->subject }}</a></td>
                 <td>{{ $ticket->user->name }}</td>
-                <td>
-                    @if ($ticket->status == 'open')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-danger" style="width:33.3%">
-                            Open
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'assigned')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-warning" style="width:66.6%">
-                            Assigned
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'closed_success')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-success" style="width:100%">
-                            Finished
-                        </div>
-                    </div>
-                    @elseif ($ticket->status == 'closed_error')
-                    <div class="progress mt-1 bg-light">
-                        <div class="progress-bar bg-danger" style="width:100%">
-                            Closed/Failed
-                        </div>
-                    </div>
-                    @endif
-                </td>
+                <td>@include('layouts.partials.ticketProgress')</td>
                 <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @else Take @endif</td>
-                <td>Edit | Take | Close</td>
+                <td>Reopen</td>
             </tr>
             @endforeach
         </tbody>
