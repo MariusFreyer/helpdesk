@@ -169,7 +169,7 @@ class TicketController extends Controller
     public function reopen(Ticket $ticket, Request $request)
     {
         $this->changeStatus($ticket, 'assigned');
-        $request->session()->flash('alert-success', 'Ticket was closed.');
+        $request->session()->flash('alert-success', 'Ticket was reopened.');
         return back();
     }
 

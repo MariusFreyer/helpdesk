@@ -1,4 +1,5 @@
 @extends('layouts.main') 
+@section('pageTitle', 'User overview')
 @section('content')
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
@@ -40,5 +41,7 @@
         There are no users
     </div>
     @endif
+
+    <a href="{{ route('create_user') }}" class="btn btn-sm btn-primary" role="button">Add</a>
 </div>
 @endsection

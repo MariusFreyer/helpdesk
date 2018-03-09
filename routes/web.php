@@ -22,12 +22,12 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::middleware(['role:supporter'])->group(function () {
     Route::get('/tickets', 'TicketController@index')->name('index_ticket');
-    Route::get('/tickets/{ticket}/assign/{user_id}', 'TicketController@assign')->name('assign_ticket');
-    Route::get('/tickets/{ticket}/release', 'TicketController@release')->name('release_ticket');
-    Route::get('/tickets/{ticket}/close', 'TicketController@close')->name('close_ticket');
-    Route::get('/tickets/{ticket}/finish', 'TicketController@finish')->name('finish_ticket');
-    Route::get('/tickets/{ticket}/reopen', 'TicketController@reopen')->name('reopen_ticket');
-    Route::get('/tickets/{ticket}/reset', 'TicketController@reset')->name('reset_ticket');
+    Route::post('/tickets/{ticket}/assign/{user_id}', 'TicketController@assign')->name('assign_ticket');
+    Route::post('/tickets/{ticket}/release', 'TicketController@release')->name('release_ticket');
+    Route::post('/tickets/{ticket}/close', 'TicketController@close')->name('close_ticket');
+    Route::post('/tickets/{ticket}/finish', 'TicketController@finish')->name('finish_ticket');
+    Route::post('/tickets/{ticket}/reopen', 'TicketController@reopen')->name('reopen_ticket');
+    Route::post('/tickets/{ticket}/reset', 'TicketController@reset')->name('reset_ticket');
 });
 
 /**
@@ -35,6 +35,8 @@ Route::middleware(['role:supporter'])->group(function () {
  */
 Route::middleware(['role:admin'])->group(function () {
     Route::get('/admin/users', 'AdminController@user_index')->name('index_user');
+    Route::get('/admin/users/create', 'AdminController@user_create')->name('create_user');
+    Route::post('/admin/users', 'AdminController@user_store')->name('store_user');
 });
 
  Route::get('/', 'TicketController@create')->name('create_ticket');

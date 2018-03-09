@@ -2,6 +2,10 @@
 @section('content')
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
+        <form id="assign-form-{{ $ticket->id }}" action="{{ route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}"
+            method="POST" style="display: none;">@csrf</form>
+        <form id="close-form-{{ $ticket->id }}" action="{{ route('close_ticket', $ticket->id) }}" method="POST" style="display: none;">@csrf</form>
+        <form id="finish-form-{{ $ticket->id }}" action="{{ route('finish_ticket', $ticket->id) }}" method="POST" style="display: none;">@csrf</form>
         <div class="row">
             <div class="col-sm-9">
                 <h1>{{ $ticket->subject }}</h1>
@@ -15,10 +19,12 @@
                             Change Status
                         </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('reset_ticket', $ticket->id) }}">Open</a>
-                        <a class="dropdown-item" href="{{ route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}">Assign</a>
-                        <a class="dropdown-item" href="{{ route('close_ticket', $ticket->id) }}">Close</a>
-                        <a class="dropdown-item" href="{{ route('finish_ticket', $ticket->id) }}">Finish</a>
+                        <a class="dropdown-item" href="{{ route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}" onclick="event.preventDefault();
+                                document.getElementById('assign-form-{{ $ticket->id }}').submit();">Assign</a>
+                        <a class="dropdown-item" href="{{ route('close_ticket', $ticket->id) }}" onclick="event.preventDefault();
+                                document.getElementById('close-form-{{ $ticket->id }}').submit();">Close</a>
+                        <a class="dropdown-item" href="{{ route('finish_ticket', $ticket->id) }}" onclick="event.preventDefault();
+                                document.getElementById('finish-form-{{ $ticket->id }}').submit();">Finish</a>
                     </div>
                 </div>
             </div>
@@ -33,14 +39,13 @@
             <p>
                 {{ $ticket->body }}
             </p>
-            <a href="{{ route('edit_ticket', $ticket->id) }}" class="btn btn-sm btn-primary" role="button">Edit</a>
             <div class="ticket-thumbnails mt-3">
                 @foreach($ticket->attachments as $attachment)
                 <a href="{{ asset(Storage::disk('local')->url($attachment->path))}}">
                     <img src="{{ asset(Storage::disk('local')->url($attachment->path))}}" alt="" class="img-thumbnail" width="150" />
-                </a> 
-                @endforeach
+                </a> @endforeach
             </div>
+            <a href="{{ route('edit_ticket', $ticket->id) }}" class="btn btn-sm btn-primary" role="button">Edit</a>
         </div>
     </div>
     <hr class="mt-4 mb-4">
