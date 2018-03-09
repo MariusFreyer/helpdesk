@@ -20,7 +20,6 @@ class CreateTicketsTable extends Migration
             $table->integer('assigne_id')->nullable();
             $table->text('body');
             $table->enum('status', ['open', 'assigned', 'closed_success', 'closed_error']);
-            $table->string('image');
             $table->timestamps();
         });
     }

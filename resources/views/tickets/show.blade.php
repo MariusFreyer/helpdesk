@@ -7,34 +7,39 @@
                 <h1>{{ $ticket->subject }}</h1>
                 <p>{{ $ticket->created_at }} by {{ $ticket->user->name }} @if ( $ticket->assigne ) | <strong>Assigne:</strong>                    {{ $ticket->assigne->name }}</p> @endif
             </div>
+            @if (Auth::user()->hasRole('admin') || (Auth::user()->hasRole('supporter')))
             <div class="col-sm-3">
-                @include('layouts.partials.ticketProgress')
+    @include('layouts.partials.ticketProgress')
                 <div class="dropdown mt-3">
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
                             Change Status
                         </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
+                        <a class="dropdown-item" href="{{ route('reset_ticket', $ticket->id) }}">Open</a>
+                        <a class="dropdown-item" href="{{ route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}">Assign</a>
+                        <a class="dropdown-item" href="{{ route('close_ticket', $ticket->id) }}">Close</a>
+                        <a class="dropdown-item" href="{{ route('finish_ticket', $ticket->id) }}">Finish</a>
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            @include('layouts.partials.messages')
+    @include('layouts.partials.messages')
             <p>
                 {{ $ticket->body }}
             </p>
             <a href="{{ route('edit_ticket', $ticket->id) }}" class="btn btn-sm btn-primary" role="button">Edit</a>
-            <div class="ticket-thumbnails mt-4">
-                <a href="{{ asset(Storage::disk('local')->url($ticket->image))}}">
-                    <img src="{{ asset(Storage::disk('local')->url($ticket->image))}}" alt="" class="img-thumbnail" width="150" />
-                </a>
+            <div class="ticket-thumbnails mt-3">
+                @foreach($ticket->attachments as $attachment)
+                <a href="{{ asset(Storage::disk('local')->url($attachment->path))}}">
+                    <img src="{{ asset(Storage::disk('local')->url($attachment->path))}}" alt="" class="img-thumbnail" width="150" />
+                </a> 
+                @endforeach
             </div>
         </div>
     </div>

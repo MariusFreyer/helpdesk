@@ -26,7 +26,7 @@
                             <textarea name="body" type="text" class="form-control" id="body" rows="10"></textarea>
                         </div>
                         <div class="form-group">
-                            <input type="file" name="image">
+                            <input type="file" name="images[]" multiple>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Send</button>

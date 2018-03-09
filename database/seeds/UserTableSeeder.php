@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
-use App\Role;
 
 class UserTableSeeder extends Seeder
 {
@@ -13,21 +12,25 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $role_user = Role::where('name', 'user')->first();
-        $role_admin = Role::where('name', 'admin')->first();
-
         $user = new User();
         $user->name = 'User';
         $user->email = 'user@test.de';
         $user->password = Hash::make('password');
+        $user->role = User::USER_ROLE;
         $user->save();
-        $user->roles()->attach($role_user);
+
+        $supporter = new User();
+        $supporter->name = 'Supporter';
+        $supporter->email = 'supporter@test.de';
+        $supporter->password = Hash::make('password');
+        $supporter->role = User::SUPPORTER_ROLE;
+        $supporter->save();
 
         $admin = new User();
         $admin->name = 'Admin';
         $admin->email = 'admin@test.de';
         $admin->password = Hash::make('password');
+        $admin->role = User::ADMIN_ROLE;
         $admin->save();
-        $admin->roles()->attach($role_admin);
     }
 }

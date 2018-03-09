@@ -26,8 +26,12 @@
                 <td><a href="{{ route('show_ticket', $ticket->id) }}">{{ $ticket->subject }}</a></td>
                 <td>{{ $ticket->user->name }}</td>
                 <td>@include('layouts.partials.ticketProgress')</td>
-                <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @else Take @endif</td>
-                <td>Close | <a href="{{ route('release_ticket', $ticket->id)}}">Release</a></td>
+                <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @endif</td>
+                <td>
+                    <a href="{{ route('close_ticket', $ticket->id) }}">Close</a> |
+                    <a href="{{ route('finish_ticket', $ticket->id) }}">Finish</a> |
+                    <a href="{{ route('release_ticket', $ticket->id)}}">Unassign</a>
+                </td>
             </tr>
             @endforeach
         </tbody>
@@ -37,9 +41,7 @@
         You have no open tickets!
     </div>
     @endif
-
     <hr class="mb-5 mt-5">
-
     <h2>Open Tickets</h2>
     <p>The tickets below need processing</p>
     @if (count($open_tickets) > 0)
@@ -59,8 +61,12 @@
                 <td><a href="{{ route('show_ticket', $ticket->id) }}">{{ $ticket->subject }}</a></td>
                 <td>{{ $ticket->user->name }}</td>
                 <td>@include('layouts.partials.ticketProgress')</td>
-                <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @else Take @endif</td>
-                <td><a href="{{route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}">Take</a> | Close</td>
+                <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @endif</td>
+                <td>
+                    <a href="{{route('assign_ticket', ['ticket' => $ticket->id, 'user_id' => Auth::id()]) }}">Assign</a> |
+                    <a href="{{ route('close_ticket', $ticket->id) }}">Close</a> |
+                    <a href="{{ route('finish_ticket', $ticket->id) }}">Finish</a>
+                </td>
             </tr>
             @endforeach
         </tbody>
@@ -70,9 +76,7 @@
         There are no open tickets
     </div>
     @endif
-
     <hr class="mb-5 mt-5">
-
     <h2>Finished Tickets</h2>
     <p>The tickets below are closed or finished</p>
     @if (count($closed_tickets) > 0 )
@@ -91,9 +95,10 @@
             <tr>
                 <td><a href="{{ route('show_ticket', $ticket->id) }}">{{ $ticket->subject }}</a></td>
                 <td>{{ $ticket->user->name }}</td>
-                <td>@include('layouts.partials.ticketProgress')</td>
-                <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @else Take @endif</td>
-                <td>Reopen</td>
+                <td>
+    @include('layouts.partials.ticketProgress')</td>
+                <td>@if($ticket->assigne) {{ $ticket->assigne->name }} @endif</td>
+                <td><a href="{{ route('reopen_ticket', $ticket->id) }}">Reopen</a> | <a href="{{ route('reset_ticket', $ticket->id) }}">Reset</a></td>
             </tr>
             @endforeach
         </tbody>

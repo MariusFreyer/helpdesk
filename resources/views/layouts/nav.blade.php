@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
                 @if(Auth::check()) 
-                @if (Auth::user()->hasRole('admin'))
+                @if (Auth::user()->hasRole('admin') || (Auth::user()->hasRole('supporter')))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('index_ticket') }}">Ticket overview</a>
                 </li>
